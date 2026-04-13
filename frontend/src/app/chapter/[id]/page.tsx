@@ -12,26 +12,31 @@ export default function ChapterReader() {
   const [images, setImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [chapterMeta, setChapterMeta] = useState<any>(null);
 
   useEffect(() => {
     if (!id) return;
 
-    const fetchImages = async () => {
+    const fetchImagesAndMeta = async () => {
       setLoading(true);
       setError(null);
       try {
-        const data = await getChapterImages(id as string);
-        setImages(data.imageUrls || []);
+        const [imagesData, metaData] = await Promise.all([
+          getChapterImages(id as string),
+          import('@/lib/api').then(m => m.getChapter(id as string))
+        ]);
+        setImages(imagesData.imageUrls || []);
+        setChapterMeta(metaData.data);
         window.scrollTo(0, 0); // Scroll to top on new chapter
       } catch (err) {
-        setError('Failed to load chapter images.');
+        setError('Failed to load chapter data.');
         console.error(err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchImages();
+    fetchImagesAndMeta();
   }, [id]);
 
   if (loading) {
@@ -53,16 +58,32 @@ export default function ChapterReader() {
     );
   }
 
+  const mangaRel = chapterMeta?.relationships?.find((rel: any) => rel.type === 'manga');
+  const mangaId = mangaRel?.id;
+  const chapterNumber = chapterMeta?.attributes?.chapter || '?';
+  const chapterTitle = chapterMeta?.attributes?.title ? ` - ${chapterMeta.attributes.title}` : '';
+
   return (
     <main className={styles.main}>
       <header className={`glass ${styles.header}`}>
         <div className="container">
           <div className={styles.nav}>
-            <Link href="/" className={styles.logo}>Nozi Manga</Link>
             <div className={styles.controls}>
-              <button onClick={() => router.back()} className={`glass ${styles.btnBack}`}>
-                Back
-              </button>
+              {mangaId ? (
+                <Link href={`/manga/${mangaId}`} className={`glass ${styles.btnBack}`}>
+                  Back to Manga
+                </Link>
+              ) : (
+                <button onClick={() => router.back()} className={`glass ${styles.btnBack}`}>
+                  Back
+                </button>
+              )}
+            </div>
+            <div className={styles.hudMeta}>
+              <span className={styles.hudChapterNumber}>Chapter {chapterNumber}{chapterTitle}</span>
+            </div>
+            <div className={styles.logo}>
+               <Link href="/">Nozi Manga</Link>
             </div>
           </div>
         </div>

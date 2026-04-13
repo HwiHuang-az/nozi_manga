@@ -56,10 +56,28 @@
   line-height: 1.1;
 }
 
-.author {
-  font-size: 1.25rem;
-  color: var(--accent-primary);
+.metaList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   margin-bottom: 1.5rem;
+}
+
+.metaItem {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+
+.metaLabel {
+  color: var(--text-muted);
+  font-weight: 500;
+  width: 90px;
+}
+
+.metaValue {
+  color: var(--text-main);
+  font-weight: 500;
 }
 
 .tags {

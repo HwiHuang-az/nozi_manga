@@ -78,7 +78,18 @@ export default function MangaDetail() {
             </div>
             <div className={styles.info}>
               <h1 className={styles.title}>{title}</h1>
-              <p className={styles.author}>{author}</p>
+              
+              <div className={styles.metaList}>
+                <div className={styles.metaItem}>
+                  <span className={styles.metaLabel}>Tác giả:</span>
+                  <span className={styles.metaValue}>{author}</span>
+                </div>
+                <div className={styles.metaItem}>
+                  <span className={styles.metaLabel}>Tình trạng:</span>
+                  <span className={styles.metaValue}>{manga.attributes.status?.charAt(0).toUpperCase() + manga.attributes.status?.slice(1) || 'Unknown'}</span>
+                </div>
+              </div>
+
               <div className={styles.tags}>
                 {manga.attributes.tags.slice(0, 5).map((tag: any) => (
                   <span key={tag.id} className={styles.tag}>

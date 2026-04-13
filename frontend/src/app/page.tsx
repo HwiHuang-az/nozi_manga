@@ -32,14 +32,6 @@ export default function Home() {
   return (
     <div className={styles.homeContainer}>
       <header className={styles.header}>
-        <div className={styles.headerText}>
-          <h1 className={styles.title}>
-            Bản Tin <span className="gradient-text">Truyện Mới</span>
-          </h1>
-          <p className={styles.subtitle}>
-            Trải nghiệm đọc truyện cao cấp với tốc độ cực nhanh.
-          </p>
-        </div>
         <div className={styles.searchWrapper}>
           <SearchBar onSearch={handleSearch} />
         </div>

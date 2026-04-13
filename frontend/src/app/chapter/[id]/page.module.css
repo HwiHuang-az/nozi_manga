@@ -28,6 +28,24 @@
   -webkit-text-fill-color: transparent;
 }
 
+.hudMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  text-align: center;
+}
+
+.hudChapterNumber {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 400px;
+}
+
 .btnBack {
   padding: 0.5rem 1rem;
   font-size: 0.9rem;
